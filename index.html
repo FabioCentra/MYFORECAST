@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="CSS/style.css">
+	<script src="https://kit.fontawesome.com/4b5120f010.js" crossorigin="anonymous"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=606f99489f1b6ff7ae62aa13986083a4"
+		async></script>
+	<script src="main.js"></script>
+	<title>My Forecast</title>
+</head>
+
+<body onload="getForecast()">
+		<nav class="nav">
+			<span class="title">MyForecast</span>
+		</nav>
+	<section class="topContainer">
+		<div class="responsivediv">
+			<div class="left">
+				<div class="flex-between">
+					<span class="bigsize bold" id="location"></span>
+					<span class="maxsize bold" id="temp"><span class="normal-weigth" id="celsius"></span></h1>
+				</div>
+				<div class="center">
+					<img id="icon" src="" alt="main icon">
+				</div>
+				<div class="center">
+					<span class="forecastname maxsize" id="main"></span>
+				</div>
+				<div class="center">
+					<span id="description"></span>
+				</div>
+				<div class="flex-between mt-110">
+					<span class="textcolor bold">MIN</span>
+					<span class="textcolor bold">MAX</span>
+				</div>
+				<div class="center flex-between temptextadjust">
+					<span class="ml-10 midsize" id="min"></span>
+					<span class="ml-10 midsize" id="max"></span>
+				</div>
+			</div>
+			<!--Float on right of the first div container-->
+			<div class="right" id="forecast"></div>
+		</div>	
+	</section>
+	<section class="middlecontainer">
+		<div title="show map">
+			<button id="buttonmap" onclick="showHide()" class="button" title="show map"><i class="fa-solid fa-map-location-dot"></i></button>
+		</div>
+	</section>
+	<section class="bottomcontainer">
+		<div id="map"></div>
+	</section>
+</body>
+
+</html>
