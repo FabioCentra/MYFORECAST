@@ -140,8 +140,6 @@ function getForecast(){
                 document.getElementById(tempId).appendChild(spancloud)
                 tempId ++;                
             })
-
-            console.log(fivedays);
             return responsejson;
         }).catch( error => alert(error))
     }, 300);
