@@ -28,10 +28,13 @@ function initMap() {
 //function to show or hide map
 function showHide(){
     if(flag == 1){
-        document.getElementById("map").style.display = "none";
+            document.getElementById("map").style.display = "none";
         return flag = 0
     }else{
         initMap();
+        document.querySelector('.bottomcontainer').scrollIntoView({
+            behavior: 'smooth',
+        })
         document.getElementById("map").style.display  = "inline";
         return flag = 1;
     }   

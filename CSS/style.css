@@ -418,5 +418,8 @@ body {
     margin-left: 22px;
     margin-top: -500px !important;
   }
+  body {
+    background: #f8f8f8;
+  }
 }
 /*# sourceMappingURL=style.css.map */
