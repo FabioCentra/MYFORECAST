@@ -7,12 +7,35 @@ let mainweather;
 let descriptionweather;
 let tempId = 0
 const kelvinConversion = 273.15;
+let lat;
+let lon;
 //...declaration
 
+
+// function to getLocation at the moment
+function getLocation(){
+    let options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    }
+    function success(pos){
+        let cordinates = pos.coords
+        this.lat = cordinates.latitude;
+        this.lon = cordinates.longitude; 
+    }
+    function error (error){
+        console.warn(`ERROR(${error.code}): ${error.message}`)
+    }
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(success, error, options);
+    }
+   
+}
+
 function initMap() {
-    
     //define const for the location --> getLocation
-    const location = { lat: 41.835108, lng: 12.500752};
+    const location = { lat: this.lat, lng: this.lon};
     //map centered at location
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 16,
@@ -53,7 +76,7 @@ function getForecast(){
                         mainweather = e.main;
                         descriptionweather = e.description;
                     })
-                    let temp = new Date(element.dt * 1000);
+                    var temp = new Date(element.dt * 1000);
                     return {
                         //object with all utils properties
                         location: responsejson.timezone.substring(responsejson.timezone.lastIndexOf('/') + 1),
@@ -70,8 +93,10 @@ function getForecast(){
                 })
             //conversion number in relative daysweek    
             fivedays.slice(0,5).map(element => {
-                if(element.day == 1){
-                    element.day = 'Mon'
+                let today = new Date()
+                today = today.getDay();
+                if(element.day == today){
+                    element.day = 'Today'
                 }else if(element.day == 2){
                     element.day = 'Tue'
                 }else if(element.day == 3){
@@ -82,6 +107,8 @@ function getForecast(){
                     element.day = 'Fri'
                 }else if(element.day == 6){
                     element.day = 'Sat'
+                }else if(element.day == 1){
+                    element.day = 'Mon'
                 }else{
                     element.day = 'Sun'
                 }
