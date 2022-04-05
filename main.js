@@ -9,33 +9,13 @@ let tempId = 0
 const kelvinConversion = 273.15;
 let lat;
 let lon;
+let flagforecast = false;
 //...declaration
 
 
-// function to getLocation at the moment
-function getLocation(){
-    let options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    }
-    function success(pos){
-        let cordinates = pos.coords
-        this.lat = cordinates.latitude;
-        this.lon = cordinates.longitude; 
-    }
-    function error (error){
-        console.warn(`ERROR(${error.code}): ${error.message}`)
-    }
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(success, error, options);
-    }
-   
-}
-
 function initMap() {
     //define const for the location --> getLocation
-    const location = { lat: this.lat, lng: this.lon};
+    const location = { lat: lat, lng: lon};
     //map centered at location
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 16,
@@ -48,19 +28,28 @@ function initMap() {
     });
 }
 
-//function to show or hide map
-function showHide(){
-    if(flag == 1){
-            document.getElementById("map").style.display = "none";
-        return flag = 0
-    }else{
-        initMap();
-        document.querySelector('.bottomcontainer').scrollIntoView({
-            behavior: 'smooth',
-        })
-        document.getElementById("map").style.display  = "inline";
-        return flag = 1;
-    }   
+// function to getLocation at the moment
+function getLocation(){
+    let options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    }
+    function success(pos){
+        let cordinates = pos.coords
+        lat = cordinates.latitude;
+        lon = cordinates.longitude;
+        flagforecast = true;
+        if(flagforecast){
+            this.getForecast()
+        }
+    }
+    function error (error){
+        console.warn(`ERROR(${error.code}): ${error.message}`)
+    }
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(success, error, options);
+    }
 }
 
 //function for get forecast 
@@ -95,19 +84,17 @@ function getForecast(){
             fivedays.slice(0,5).map(element => {
                 let today = new Date()
                 today = today.getDay();
-                if(element.day == today){
+                if(element.day === today){
                     element.day = 'Today'
-                }else if(element.day == 2){
-                    element.day = 'Tue'
-                }else if(element.day == 3){
+                }else if(element.day === 3){
                     element.day = 'Wed'
-                }else if(element.day == 4){
+                }else if(element.day === 4){
                     element.day = 'Thu'
-                }else if(element.day == 5){
+                }else if(element.day === 5){
                     element.day = 'Fri'
-                }else if(element.day == 6){
+                }else if(element.day === 6){
                     element.day = 'Sat'
-                }else if(element.day == 1){
+                }else if(element.day === 1){
                     element.day = 'Mon'
                 }else{
                     element.day = 'Sun'
@@ -175,3 +162,17 @@ function getForecast(){
     }, 300);
 }
 
+//function to show or hide map
+function showHide(){
+    if(flag === 1){
+        document.getElementById("map").style.display = "none";
+        return flag = 0
+    }else{
+        initMap();
+        document.querySelector('.bottomcontainer').scrollIntoView({
+            behavior: 'smooth',
+        })
+        document.getElementById("map").style.display  = "inline";
+        return flag = 1;
+    }
+}
